@@ -23,6 +23,9 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="GameOfLife_Python.py" />
+    <Compile Include="OriginalSource.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
