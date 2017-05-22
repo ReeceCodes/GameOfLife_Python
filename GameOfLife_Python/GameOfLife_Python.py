@@ -66,13 +66,15 @@ class LifeBoard:
             for j in range(self.y):
                 s = 0
                 live = ((i,j) in self.state)
-                for yp in range(max(0,j-1),min(self.y,j+2)):
+                #this loop confuses me. for the highest number in j to the lowest number in y to j+2, then loop through each x, then check the keys for each value
+                #i get that it's going through the neighbors of each cell. it's just written in such a different way to me. the loop seems to be going through all the combinations of 0-2 of (currentx, currenty) (ie x,y+1; x+1, y+1; x, y+2; etc)
+                for yp in range(max(0,j-1),min(self.y,j+2)): 
                     for xp in xrange:
                         if (xp,yp) in self.state:
-                            s += 1
+                            s += 1 #has a neighbor
 
-                s -= live
-                if (s == 3):
+                s -= live 
+                if (s == 3): # here is where it checks neighbor counts and maybe adds the cell, after it replaces the collection
                     d.add((i,j))
                 elif s == 2 and live:
                     d.add((i,j))
@@ -90,7 +92,7 @@ class LifeBoard:
             turtle.pendown()
             turtle.setheading(0)
             turtle.begin_fill()
-            for i in range(4):
+            for i in range(4): #took me a few seconds to realize that this is drawing each edge and then rotating 90 degrees to draw the next edge until it's a square, seems very inefficient
                 turtle.forward(CELL_SIZE-1)
                 turtle.left(90)
             turtle.end_fill()
@@ -123,6 +125,8 @@ def display_help_window():
               " R)andom fill",
               " S)tep once or",
               " C)ontinuously -- use 'S' to resume stepping",
+              "+ -> increase pixel size and rerandomize",
+              "- -> decrease pixel size and rerandomize",
               " Q)uit"):
         help_t.setpos(-(width/2),y)
         help_t.write(s,font=('sans-serif',14,'normal'))
@@ -187,6 +191,19 @@ def main():
 
     turtle.onkey(step_once, 's')
     turtle.onkey(step_continuous, 'c')
+
+    def up_size():
+        global CELL_SIZE
+        CELL_SIZE += 1
+        makeRandom()
+
+    def down_size():
+        global CELL_SIZE
+        CELL_SIZE -= 1
+        makeRandom()
+
+    turtle.onkey(up_size, '+')
+    turtle.onkey(down_size, '-')
 
     turtle.listen()
     turtle.mainloop()
